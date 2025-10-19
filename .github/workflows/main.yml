@@ -1,7 +1,9 @@
 name: Build
 
-on: [push]
-
+on:
+    push:
+    workflow_dispatch:
+    
 env:
   TOOLCHAIN: cruel
   INSTALLER: yes
@@ -13,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        model: [ "G970F,G973F,G975F", "N975F" ]
+        model: [ "G977B" ]
 
     steps:
       - uses: actions/checkout@v3
@@ -58,7 +60,9 @@ jobs:
                        name="Cruel-devel"        \
                        toolchain=$TOOLCHAIN      \
                        +magisk                   \
+                       +always_permit \
                        +nohardening              \
+                       +nohardening2\
                        +ttl                      \
                        +wireguard                \
                        +cifs                     \
@@ -116,21 +120,21 @@ jobs:
           unzip ../CruelKernel.zip
       - name: Upload Kernel Zip
         if: env.INSTALLER == 'yes'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: CruelKernel-${{ matrix.model }}
           path: installer/*
           if-no-files-found: error
       - name: Upload Kernel Images
         if: env.INSTALLER != 'yes'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: CruelKernel-${{ matrix.model }}
           path: '*.img'
           if-no-files-found: error
 
       - name: Upload Kernel Info
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ConfigurationInfo-${{ matrix.model }}
           path: config.*
