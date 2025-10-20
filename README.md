@@ -162,8 +162,8 @@ Presets list (+ means enabled by default, use NODEFAULTS=1 env var to drop them)
 * +magisk - integrates magisk into the kernel. This allows to have root without
   booting from recovery. Enabled by default. It's possible to specify magisk version,
   e.g. +magisk=canary or +magisk=alpha or +magisk=v20.4 or +magisk=v19.4
-* kernelsu - integrates [KernelSU](https://github.com/tiann/KernelSU) as an alternative root
-  solution. Initialize the submodule with `git submodule update --init KernelSU` before
+* kernelsu - integrates [KernelSU-Next](https://github.com/KernelSU-Next/KernelSU-Next) as an alternative root
+  solution. Initialize the submodule with `git submodule update --init KernelSU-Next` before
   building. Cannot be combined with +magisk.
 * dtb - build dtb/dtbo images
 * empty\_vbmeta - include empty vbmeta img in installer and flash it
@@ -327,7 +327,7 @@ $ git checkout cruel-HVJ5-v5.3
 # Install compilers
 $ git submodule update --init --depth 1 -j $(nproc)
 # Initialize KernelSU sources when building with +kernelsu
-$ git submodule update --init KernelSU
+$ git submodule update --init KernelSU-Next
 # execute these 4 commands if you want to use non-default toolchains
 # cd toolchain
 # git remote set-branches origin '*'
