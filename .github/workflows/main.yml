@@ -60,6 +60,7 @@ jobs:
                        name="Cruel-devel"        \
                        toolchain=$TOOLCHAIN      \
                        -magisk                   \
+                       +kernelsu                 \
                        +always_permit \
                        +nohardening              \
                        +nohardening2\

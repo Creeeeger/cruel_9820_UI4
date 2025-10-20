@@ -26,6 +26,8 @@ from os import fsencode, fsdecode
 
 CK_DIR = os.path.dirname(os.path.realpath(__file__))
 
+kernelsu_initialized = False
+
 toolchain = {
     'default': {
         'CROSS_COMPILE': 'toolchain/gcc-cfp/gcc-cfp-jopp-only/aarch64-linux-android-4.9/bin/aarch64-linux-android-',
@@ -609,6 +611,14 @@ RANDOMSEED=0x{secrets.token_hex(8)}
     with open('usr/magisk/magisk_version', 'rt') as fh:
         print('Magisk Version: ' + fh.readline())
 
+def init_kernelsu():
+    global kernelsu_initialized
+    if kernelsu_initialized:
+        return
+    print('Initializing KernelSU sources...')
+    run(['git', 'submodule', 'update', '--init', 'KernelSU'], check=True)
+    kernelsu_initialized = True
+
 def switch_toolchain(compiler):
     cc = os.path.abspath(get_toolchain_cc(compiler))
     if cc.startswith(os.path.realpath('toolchain')):
@@ -1157,6 +1167,10 @@ def detect_features(configs, features):
             features[f] = check_env(f.upper())
     return features
 
+def validate_root_features(features):
+    if features.get('kernelsu') and features.get('magisk'):
+        fatal('KernelSU (+kernelsu) cannot be enabled together with Magisk (+magisk). Please select only one root solution.')
+
 if __name__ == '__main__':
     os.chdir(CK_DIR)
 
@@ -1169,6 +1183,7 @@ if __name__ == '__main__':
         'nodefaults': False,
         'src_reduce': False,
         'magisk': False,
+        'kernelsu': False,
         'dtb': False,
         'fake_config': False,
         'empty_vbmeta': False,
@@ -1180,6 +1195,9 @@ if __name__ == '__main__':
 
         configs = parse_args()
         features = detect_features(configs, features)
+        validate_root_features(features)
+        if features['kernelsu']:
+            init_kernelsu()
 
         if 'O' in configs:
             objtree = configs['O']
@@ -1209,6 +1227,9 @@ if __name__ == '__main__':
     else:
         configs = load_config('config.json')
         features = detect_features(configs, features)
+        validate_root_features(features)
+        if features['kernelsu']:
+            init_kernelsu()
         device_models = configs['model']
         objtree = configs.get('O', '.')
 
