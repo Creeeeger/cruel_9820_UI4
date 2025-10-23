@@ -615,8 +615,6 @@ def init_kernelsu():
     global kernelsu_initialized
     if kernelsu_initialized:
         return
-    print('Initializing KernelSU sources...')
-    run(['git', 'submodule', 'update', '--init', 'KernelSU-Next'], check=True)
     kernelsu_initialized = True
 
 def switch_toolchain(compiler):

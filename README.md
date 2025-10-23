@@ -162,9 +162,7 @@ Presets list (+ means enabled by default, use NODEFAULTS=1 env var to drop them)
 * +magisk - integrates magisk into the kernel. This allows to have root without
   booting from recovery. Enabled by default. It's possible to specify magisk version,
   e.g. +magisk=canary or +magisk=alpha or +magisk=v20.4 or +magisk=v19.4
-* kernelsu - integrates [KernelSU-Next](https://github.com/KernelSU-Next/KernelSU-Next) as an alternative root
-  solution. Initialize the submodule with `git submodule update --init KernelSU-Next` before
-  building. Cannot be combined with +magisk.
+* kernelsu - integrates KernelSU-Next
 * dtb - build dtb/dtbo images
 * empty\_vbmeta - include empty vbmeta img in installer and flash it
 * always\_permit - pin SELinux to always use permissive mode. Required on LOS rom.
@@ -326,8 +324,6 @@ $ git checkout cruel-HVJ5-v5.3
 
 # Install compilers
 $ git submodule update --init --depth 1 -j $(nproc)
-# Initialize KernelSU sources when building with +kernelsu
-$ git submodule update --init KernelSU-Next
 # execute these 4 commands if you want to use non-default toolchains
 # cd toolchain
 # git remote set-branches origin '*'
@@ -349,9 +345,3 @@ $ FLASH=y ./cruelbuild mkimg ...
 # Or in a single command (compilation with flashing)
 # FLASH=y ./cruelbuild mkimg name="CustomCruel" model=G973F toolchain=proton +magisk=canary +wireguard +ttl +cifs +nohardening
 ```
-
-## Support
-
-- [Telegram](https://t.me/joinchat/GsJfBBaxozXvVkSJhm0IOQ)
-- [XDA Thread](https://forum.xda-developers.com/galaxy-s10/samsung-galaxy-s10--s10--s10-5g-cross-device-development-exynos/kernel-cruel-kernel-s10-note10-v3-t4063495)
-
