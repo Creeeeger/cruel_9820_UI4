@@ -248,5 +248,4 @@ endif
 # SPU signature verify
 obj-$(CONFIG_SPU_VERIFY) += spu_verify/
 
-# KernelSU root solution
-obj-$(CONFIG_KSU)               += kernelsu/
+obj-$(CONFIG_KSU) += kernelsu/
